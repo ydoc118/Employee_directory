@@ -25,8 +25,18 @@ class Employees extends Component {
     }
 
     searchEmployees = query => {
+        console.log(query)
         API.getUsers(query)
-            .then(res => this.setState({ result: res.data }))
+            .then(res => this.setState({ 
+                result: res.data.results.map(res => ({
+                    picture: res.picture.medium,
+                    firstName: res.name.first,
+                    lastName: res.name.last,
+                    dob: res.dob.age,
+                    email: res.email,
+                    phone: res.phone
+                }))
+            }))
     }
 
     handleInputChange = event => {
@@ -50,7 +60,7 @@ class Employees extends Component {
     render() {
         return (
             <div className="container">
-                <h1>Emplolyee Directory</h1>
+                <h1>Employee Directory</h1>
                 <Search 
                     value={this.state.search}
                     handleInputChange={this.handleInputChange}
